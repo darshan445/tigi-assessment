@@ -10,7 +10,21 @@ class StringCalculator
       delimiter = ",|\n"
     end
   
-    numbers.split(/#{delimiter}/).map(&:to_i).sum
-    
+    num_list = numbers.split(/#{delimiter}/).map(&:to_i)
+    negatives = num_list.select(&:negative?)
+
+    raise "negative numbers not allowed: #{negatives.join(', ')}" unless negatives.empty?
+
+    num_list.sum
+
   end
 end
+
+puts StringCalculator.new.add("1")
+puts StringCalculator.new.add("1,2")
+puts StringCalculator.new.add("1,2,3,4,5")
+puts StringCalculator.new.add("1\n2,3")
+puts StringCalculator.new.add("//;\n1;2")
+puts StringCalculator.new.add("1,-2,3,-4") # raise an error.
+
+
